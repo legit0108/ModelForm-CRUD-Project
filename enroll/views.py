@@ -20,9 +20,20 @@ def addAndShow(request):
     users = User.objects.all()
     return render(request, 'enroll/addAndShow.html', {'form': form, 'users': users})
 
+# update
+def update_data(request, id):
+  if request.method == 'POST':
+    user = User.objects.get(pk=id)
+    form = StudentRegistration(request.POST, instance=user)
+    if form.is_valid():
+      form.save()
+  else:
+    user = User.objects.get(pk=id)
+    form = StudentRegistration(instance=user)
+  return render(request, 'enroll/updatestudent.html', {'form': form})
 # delete
 def delete_data(request, id):
   if request.method == 'POST':
-    user = User.object.get(pk=id)  
+    user = User.objects.get(pk=id)  
     user.delete()
     return HttpResponseRedirect('/')
